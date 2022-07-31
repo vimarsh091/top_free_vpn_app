@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/app_background"
+            android:paddingHorizontal="20dp"
+            tools:context=".HomeActivity">
+
+            <ImageView
+                android:id="@+id/imgLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/ic_launcher_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txtAppName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/app_name"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="34sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imgLogo" />
+
+            <TextView
+                android:id="@+id/txtServerName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/border_black"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="ServerName"
+                android:textAlignment="gravity"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_provider_internetsvg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtAppName" />
+
+            <TextView
+                android:id="@+id/txtFreeMinutes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/border_black"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="ServerName"
+                android:textAlignment="gravity"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_provider_internetsvg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtServerName" />
+
+            <TextView
+                android:id="@+id/txtRewardButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/border_black"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="ServerName"
+                android:textAlignment="gravity"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_provider_internetsvg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtFreeMinutes" />
+
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="connect to the fastest server"
+                android:textColor="@color/white"
+                android:buttonTint="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtRewardButton" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnConnect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/green_connected"
+                android:padding="12dp"
+                android:text="@string/connected"
+                android:textAllCaps="true"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:cornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/checkBox"
+                app:strokeColor="@color/grenn_stroke"
+                app:strokeWidth="1dp" />
+
+            <ImageView
+                android:id="@+id/imgRestart"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/border_black"
+                app:layout_constraintEnd_toStartOf="@id/imgLike"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnConnect" />
+
+            <ImageView
+                android:id="@+id/imgLike"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/border_black"
+                app:layout_constraintBottom_toBottomOf="@id/imgRestart"
+                app:layout_constraintEnd_toStartOf="@id/imgShare"
+                app:layout_constraintStart_toEndOf="@id/imgRestart"
+                app:layout_constraintTop_toTopOf="@id/imgRestart" />
+
+            <ImageView
+                android:id="@+id/imgShare"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/border_black"
+                app:layout_constraintBottom_toBottomOf="@id/imgRestart"
+                app:layout_constraintEnd_toStartOf="@id/imgExit"
+                app:layout_constraintStart_toEndOf="@id/imgLike"
+                app:layout_constraintTop_toTopOf="@id/imgRestart" />
+
+            <ImageView
+                android:id="@+id/imgExit"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/border_black"
+                app:layout_constraintBottom_toBottomOf="@id/imgRestart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imgShare"
+                app:layout_constraintTop_toTopOf="@id/imgRestart" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imgRestart" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

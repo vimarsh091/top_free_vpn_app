@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TOP FREE VPN</string>
+    <string name="connected">connected</string>
+    <string name="server_list">Server List</string>
+</resources>
