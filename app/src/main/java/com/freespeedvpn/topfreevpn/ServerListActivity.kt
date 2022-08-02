@@ -17,6 +17,10 @@ class ServerListActivity : AppCompatActivity() {
 
     fun init() {
         binding.apply {
+            imgBack.setOnClickListener {
+                onBackPressed()
+            }
+
             rvServerList.adapter = ServerListAdapter(this@ServerListActivity)
         }
     }

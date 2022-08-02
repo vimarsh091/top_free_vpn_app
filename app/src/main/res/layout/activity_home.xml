@@ -42,74 +42,110 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/imgLogo" />
 
-            <TextView
-                android:id="@+id/txtServerName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:background="@drawable/border_black"
-                android:gravity="center"
-                android:padding="8dp"
-                android:text="ServerName"
-                android:textAlignment="gravity"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                app:drawableStartCompat="@drawable/ic_provider_internetsvg"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtAppName" />
-
-            <TextView
-                android:id="@+id/txtFreeMinutes"
+            <RelativeLayout
+                android:id="@+id/rvServerName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/border_black"
-                android:gravity="center"
-                android:padding="8dp"
-                android:text="ServerName"
-                android:textAlignment="gravity"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                app:drawableStartCompat="@drawable/ic_provider_internetsvg"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtServerName" />
+                app:layout_constraintTop_toBottomOf="@+id/txtAppName">
 
-            <TextView
-                android:id="@+id/txtRewardButton"
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/server_icon" />
+
+                <TextView
+                    android:id="@+id/txtServerName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:padding="8dp"
+                    android:text="ServerName"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rvFreeMinutes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/border_black"
-                android:gravity="center"
-                android:padding="8dp"
-                android:text="ServerName"
-                android:textAlignment="gravity"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                app:drawableStartCompat="@drawable/ic_provider_internetsvg"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtFreeMinutes" />
+                app:layout_constraintTop_toBottomOf="@+id/rvServerName">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/time_icon_2" />
+
+                <TextView
+                    android:id="@+id/txtFreeMinutes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:padding="8dp"
+                    android:text="50"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlReward"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/border_black"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvFreeMinutes">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/plus_button" />
+
+                <TextView
+                    android:id="@+id/txtRewardButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:padding="8dp"
+                    android:text="+30 Minutes"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
 
             <CheckBox
                 android:id="@+id/checkBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
+                android:buttonTint="@color/white"
                 android:text="connect to the fastest server"
                 android:textColor="@color/white"
-                android:buttonTint="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtRewardButton" />
+                app:layout_constraintTop_toBottomOf="@id/rlReward" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnConnect"
@@ -134,6 +170,8 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/border_black"
+                android:padding="12dp"
+                android:src="@drawable/restart_icon"
                 app:layout_constraintEnd_toStartOf="@id/imgLike"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
@@ -144,6 +182,8 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@drawable/border_black"
+                android:padding="10dp"
+                android:src="@drawable/rate_icon"
                 app:layout_constraintBottom_toBottomOf="@id/imgRestart"
                 app:layout_constraintEnd_toStartOf="@id/imgShare"
                 app:layout_constraintStart_toEndOf="@id/imgRestart"
@@ -154,6 +194,8 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@drawable/border_black"
+                android:padding="8dp"
+                android:src="@drawable/share_icon"
                 app:layout_constraintBottom_toBottomOf="@id/imgRestart"
                 app:layout_constraintEnd_toStartOf="@id/imgExit"
                 app:layout_constraintStart_toEndOf="@id/imgLike"
@@ -164,6 +206,8 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@drawable/border_black"
+                android:padding="10dp"
+                android:src="@drawable/exit_button"
                 app:layout_constraintBottom_toBottomOf="@id/imgRestart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/imgShare"

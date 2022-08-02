@@ -19,6 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_back"
+            android:padding="5dp"
             app:layout_constraintBottom_toBottomOf="@id/imgRefresh"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
@@ -31,7 +32,7 @@
             android:layout_marginStart="10dp"
             android:text="@string/server_list"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@id/imgBack"
             app:layout_constraintStart_toEndOf="@id/imgBack"
             app:layout_constraintTop_toTopOf="@id/imgBack" />
@@ -43,6 +44,8 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/border_black"
             app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/refresh_servers_icon"
+            android:padding="10dp"
             app:layout_constraintHorizontal_bias="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

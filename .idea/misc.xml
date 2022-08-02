@@ -6,7 +6,7 @@
         <entry key="app/src/main/res/drawable/border_black.xml" value="0.344" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.345" />
         <entry key="app/src/main/res/drawable/ic_provider_internetsvg.xml" value="0.345" />
-        <entry key="app/src/main/res/layout/activity_home.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.328125" />
         <entry key="app/src/main/res/layout/activity_server_list.xml" value="0.19429347826086957" />
         <entry key="app/src/main/res/layout/item_server_list.xml" value="0.25" />
