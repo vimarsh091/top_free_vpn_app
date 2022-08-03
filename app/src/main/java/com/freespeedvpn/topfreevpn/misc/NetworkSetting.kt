@@ -1,5 +1,6 @@
 package kittoku.osc.misc
 
+import android.content.SharedPreferences
 import com.freespeedvpn.topfreevpn.MAX_MTU
 import com.freespeedvpn.topfreevpn.MIN_MRU
 import kittoku.osc.unit.*
@@ -20,13 +21,13 @@ internal class ChapSetting {
     val clientResponse = ByteArray(24)
 }
 
-internal class NetworkSetting(/*prefs: SharedPreferences*/) {
-    internal val HOME_HOSTNAME = /*getStringPrefValue(OscPreference.HOME_HOSTNAME, prefs)*/ "us.com"
+internal class NetworkSetting(prefs: SharedPreferences) {
+    internal val HOME_HOSTNAME = /*getStringPrefValue(OscPreference.HOME_HOSTNAME, prefs)*/ "219.100.37.96"
     internal val HOME_USERNAME =/* getStringPrefValue(OscPreference.HOME_USERNAME, prefs)*/ "vpn"
     internal val HOME_PASSWORD = /*getStringPrefValue(OscPreference.HOME_PASSWORD, prefs)*/ "vpn"
     internal val SSL_PORT = /*getIntPrefValue(OscPreference.SSL_PORT, prefs)*/ 443
     internal val SSL_VERSION = /*getStringPrefValue(OscPreference.SSL_VERSION, prefs)*/ "DEFAULT"
-    internal val SSL_DO_VERIFY =/* getBooleanPrefValue(OscPreference.SSL_DO_VERIFY, prefs)*/ true
+    internal val SSL_DO_VERIFY =/* getBooleanPrefValue(OscPreference.SSL_DO_VERIFY, prefs)*/ false
     internal val SSL_DO_ADD_CERT = /*getBooleanPrefValue(OscPreference.SSL_DO_ADD_CERT, prefs)*/ false
     internal val SSL_CERT_DIR = /*getStringPrefValue(OscPreference.SSL_CERT_DIR, prefs)*/""
     internal val SSL_DO_SELECT_SUITES = /*getBooleanPrefValue(OscPreference.SSL_DO_SELECT_SUITES, prefs)*/ false

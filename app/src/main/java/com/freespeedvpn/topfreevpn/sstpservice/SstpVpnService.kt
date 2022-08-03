@@ -12,9 +12,13 @@ import android.net.VpnService
 import android.os.Build
 import android.preference.PreferenceManager
 import android.service.quicksettings.TileService
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.freespeedvpn.topfreevpn.R
 import com.freespeedvpn.topfreevpn.SstpTileService
+import kittoku.osc.preference.OscPreference
+import kittoku.osc.preference.accessor.getBooleanPrefValue
+import kittoku.osc.preference.accessor.setBooleanPrefValue
 
 
 internal const val ACTION_VPN_CONNECT = "kittoku.osc.connect"
@@ -27,9 +31,9 @@ internal class SstpVpnService : VpnService() {
     private var controlClient: ControlClient? = null
     private var rootState = false
 
-    /* private fun setRootState(state: Boolean) {
-         setBooleanPrefValue(state, OscPreference.ROOT_STATE, prefs)
-     }*/
+    private fun setRootState(state: Boolean) {
+        setBooleanPrefValue(state, OscPreference.ROOT_STATE, prefs)
+    }
 
     private fun requestTileListening() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -42,20 +46,20 @@ internal class SstpVpnService : VpnService() {
 
     override fun onCreate() {
 
-      //  requestTileListening()
+        //  requestTileListening()
 
+        Log.e("vpnService", "Oncreate")
         prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-/*
-            listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-                if (key == OscPreference.ROOT_STATE.name) {
-                    val newState = getBooleanPrefValue(OscPreference.ROOT_STATE, prefs)
+        listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+            if (key == OscPreference.ROOT_STATE.name) {
+                val newState = getBooleanPrefValue(OscPreference.ROOT_STATE, prefs)
 
-                    setBooleanPrefValue(newState, OscPreference.HOME_CONNECTOR, prefs)
-                    requestTileListening()
-                }
+                setBooleanPrefValue(newState, OscPreference.HOME_CONNECTOR, prefs)
+                requestTileListening()
             }
+        }
 
-            prefs.registerOnSharedPreferenceChangeListener(listener)*/
+        prefs.registerOnSharedPreferenceChangeListener(listener)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -73,8 +77,8 @@ internal class SstpVpnService : VpnService() {
                 it.run()
             }
 
-//            setRootState(true)
-            rootState = true
+            setRootState(true)
+            //  rootState = true
             Service.START_STICKY
         }
     }
@@ -90,7 +94,15 @@ internal class SstpVpnService : VpnService() {
             applicationContext,
             SstpVpnService::class.java
         ).setAction(ACTION_VPN_DISCONNECT)
-        val pendingIntent = PendingIntent.getService(applicationContext, 0, intent, 0)
+      //  val pendingIntent = PendingIntent.getService(applicationContext, 0, intent, 0)
+
+         var pendingIntent: PendingIntent? = null
+         pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+             PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_MUTABLE)
+         } else {
+             PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+         }
+
         val builder = NotificationCompat.Builder(applicationContext, CHANNEL_ID).also {
             it.setSmallIcon(R.drawable.ic_baseline_vpn_lock_24)
             it.setContentText("Disconnect SSTP connection")
@@ -104,8 +116,8 @@ internal class SstpVpnService : VpnService() {
 
     override fun onDestroy() {
         controlClient?.kill(null)
-//        setRootState(false)
-        rootState = false
+        setRootState(false)
+        //   rootState = false
         prefs.unregisterOnSharedPreferenceChangeListener(listener)
     }
 }

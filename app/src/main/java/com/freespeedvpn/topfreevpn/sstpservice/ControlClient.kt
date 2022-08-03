@@ -1,7 +1,9 @@
 package com.freespeedvpn.topfreevpn.sstpservice
 
+import android.content.SharedPreferences
 import android.net.Uri
 import android.net.VpnService
+import android.preference.PreferenceManager
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.documentfile.provider.DocumentFile
@@ -21,14 +23,14 @@ import java.util.*
 import java.util.concurrent.LinkedBlockingQueue
 
 
-internal class ReconnectionSettings(/*prefs: SharedPreferences*/) {
+internal class ReconnectionSettings(prefs: SharedPreferences) {
     internal val isEnabled = /*getBooleanPrefValue(OscPreference.RECONNECTION_ENABLED, prefs)*/ true
     private val initialCount = /*if (isEnabled) getIntPrefValue(OscPreference.RECONNECTION_COUNT, prefs) else*/ 0
     private var currentCount = initialCount
     private val interval = 10 /*getIntPrefValue(OscPreference.RECONNECTION_INTERVAL, prefs)*/
     internal val intervalMillis = (interval * 1000).toLong()
-    internal val isRetryable: Boolean
-        get() = currentCount > 0
+    internal val isRetryable: Boolean = true
+       // get() = currentCount > 0
 
     internal fun resetCount() {
         currentCount = initialCount
@@ -47,7 +49,7 @@ internal class ReconnectionSettings(/*prefs: SharedPreferences*/) {
 
 internal class ControlClient(internal val vpnService: SstpVpnService) :
     CoroutineScope by CoroutineScope(Dispatchers.IO + SupervisorJob()) {
-    //   private val prefs = PreferenceManager.getDefaultSharedPreferences(vpnService.applicationContext)
+       private val prefs = PreferenceManager.getDefaultSharedPreferences(vpnService.applicationContext)
 
     internal lateinit var networkSetting: NetworkSetting
     internal lateinit var status: DualClientStatus
@@ -56,7 +58,7 @@ internal class ControlClient(internal val vpnService: SstpVpnService) :
     private var observer: NetworkObserver? = null
     internal val controlQueue = LinkedBlockingQueue<Any>()
     internal var logStream: BufferedOutputStream? = null
-    internal val reconnectionSettings = ReconnectionSettings(/*prefs*/)
+    internal val reconnectionSettings = ReconnectionSettings(prefs)
 
     internal lateinit var sslTerminal: SslTerminal
     private lateinit var sstpClient: SstpClient
@@ -90,7 +92,7 @@ internal class ControlClient(internal val vpnService: SstpVpnService) :
     }
 
     private fun initialize() {
-        networkSetting = NetworkSetting(/*prefs*/)
+        networkSetting = NetworkSetting(prefs)
         status = DualClientStatus()
         builder = vpnService.Builder()
         incomingBuffer = IncomingBuffer(networkSetting.BUFFER_INCOMING, this)
@@ -145,8 +147,6 @@ internal class ControlClient(internal val vpnService: SstpVpnService) :
                             makeNotification(0, "Failed to reconnect")
                         }
                     }
-
-
                     bye()
                 }
             }

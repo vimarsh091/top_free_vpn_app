@@ -1,32 +1,36 @@
 package com.freespeedvpn.topfreevpn
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.VpnService
 import android.os.Build
+import android.preference.PreferenceManager
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
 import com.freespeedvpn.topfreevpn.sstpservice.ACTION_VPN_CONNECT
 import com.freespeedvpn.topfreevpn.sstpservice.ACTION_VPN_DISCONNECT
 import com.freespeedvpn.topfreevpn.sstpservice.SstpVpnService
+import kittoku.osc.preference.OscPreference
+import kittoku.osc.preference.accessor.getBooleanPrefValue
 
 
 @RequiresApi(Build.VERSION_CODES.N)
 internal class SstpTileService : TileService() {
-    /*private val prefs by lazy {
+    private val prefs by lazy {
         PreferenceManager.getDefaultSharedPreferences(applicationContext)
-    }*/
+    }
 
-   /* private val listener by lazy {
+    private val listener by lazy {
         SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
             if (key == OscPreference.ROOT_STATE.name) {
                 updateTileState()
             }
         }
-    }*/
+    }
 
-   /* private val rootState: Boolean
-        get() = getBooleanPrefValue(OscPreference.ROOT_STATE, prefs)*/
+    private val rootState: Boolean
+        get() = getBooleanPrefValue(OscPreference.ROOT_STATE, prefs)
 
     private val isVpnPrepared: Boolean
         get() = VpnService.prepare(applicationContext) == null
@@ -37,7 +41,7 @@ internal class SstpTileService : TileService() {
     }
 
     private fun updateTileState() {
-        qsTile.state = if (/*rootState*/ true) {
+        qsTile.state = if (rootState) {
             Tile.STATE_ACTIVE
         } else {
             Tile.STATE_INACTIVE
@@ -71,11 +75,11 @@ internal class SstpTileService : TileService() {
     override fun onStartListening() {
         initializeState()
 
-     //   prefs.registerOnSharedPreferenceChangeListener(listener)
+        prefs.registerOnSharedPreferenceChangeListener(listener)
     }
 
     override fun onStopListening() {
-      //  prefs.unregisterOnSharedPreferenceChangeListener(listener)
+        prefs.unregisterOnSharedPreferenceChangeListener(listener)
     }
 
     private fun startVpnService(action: String) {
