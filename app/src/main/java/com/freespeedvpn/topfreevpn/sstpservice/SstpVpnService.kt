@@ -21,8 +21,8 @@ import kittoku.osc.preference.accessor.getBooleanPrefValue
 import kittoku.osc.preference.accessor.setBooleanPrefValue
 
 
-internal const val ACTION_VPN_CONNECT = "kittoku.osc.connect"
-internal const val ACTION_VPN_DISCONNECT = "kittoku.osc.disconnect"
+internal const val ACTION_VPN_CONNECT = "connect"
+internal const val ACTION_VPN_DISCONNECT = "disconnect"
 
 internal class SstpVpnService : VpnService() {
     private lateinit var prefs: SharedPreferences
@@ -53,9 +53,9 @@ internal class SstpVpnService : VpnService() {
         listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
             if (key == OscPreference.ROOT_STATE.name) {
                 val newState = getBooleanPrefValue(OscPreference.ROOT_STATE, prefs)
-
                 setBooleanPrefValue(newState, OscPreference.HOME_CONNECTOR, prefs)
                 requestTileListening()
+
             }
         }
 
@@ -100,7 +100,7 @@ internal class SstpVpnService : VpnService() {
          pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
              PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_MUTABLE)
          } else {
-             PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+             PendingIntent.getActivity(this, 0, intent,0)
          }
 
         val builder = NotificationCompat.Builder(applicationContext, CHANNEL_ID).also {

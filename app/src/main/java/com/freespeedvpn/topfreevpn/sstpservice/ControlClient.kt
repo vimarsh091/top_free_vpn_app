@@ -11,6 +11,8 @@ import com.freespeedvpn.topfreevpn.CONTROL_BUFFER_SIZE
 import com.freespeedvpn.topfreevpn.R
 import kittoku.osc.layer.*
 import kittoku.osc.misc.*
+import kittoku.osc.preference.OscPreference
+import kittoku.osc.preference.accessor.setBooleanPrefValue
 import kittoku.osc.unit.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
@@ -197,6 +199,8 @@ internal class ControlClient(internal val vpnService: SstpVpnService) :
 
         launchJobIncoming()
         launchJobControl()
+
+        setBooleanPrefValue(true, OscPreference.IS_VPN_CONNECTED,prefs)
     }
 
     private fun launchJobIncoming() {

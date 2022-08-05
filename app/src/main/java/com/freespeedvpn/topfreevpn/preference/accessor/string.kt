@@ -6,9 +6,9 @@ import kittoku.osc.preference.OscPreference
 
 internal fun getStringPrefValue(key: OscPreference, prefs: SharedPreferences): String {
     val defaultValue = when (key) {
-        OscPreference.HOME_HOSTNAME,
-        OscPreference.HOME_USERNAME,
-        OscPreference.HOME_PASSWORD,
+        OscPreference.HOME_HOSTNAME -> "219.100.37.96"
+        OscPreference.HOME_USERNAME -> "vpn"
+        OscPreference.HOME_PASSWORD -> "vpn"
         OscPreference.HOME_STATUS,
         OscPreference.SSL_CERT_DIR,
         OscPreference.LOG_DIR -> ""

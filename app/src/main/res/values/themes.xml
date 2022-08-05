@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.TOPFREEVPN" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.TOPFREEVPN" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/app_background</item>
         <item name="colorPrimaryVariant">#263149</item>
@@ -11,6 +11,7 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+       <item name="android:windowLightStatusBar">false</item>
         <!-- Customize your theme here. -->
     </style>
 </resources>

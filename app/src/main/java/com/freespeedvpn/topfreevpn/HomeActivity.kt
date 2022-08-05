@@ -2,10 +2,16 @@ package com.freespeedvpn.topfreevpn
 
 import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
+import android.content.res.ColorStateList
+import android.net.Uri
 import android.net.VpnService
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.preference.PreferenceManager
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.freespeedvpn.topfreevpn.databinding.ActivityHomeBinding
 import com.freespeedvpn.topfreevpn.sstpservice.ACTION_VPN_CONNECT
@@ -15,27 +21,34 @@ import com.google.android.gms.ads.*
 import com.google.android.gms.ads.rewarded.RewardItem
 import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAd
 import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAdLoadCallback
+import kittoku.osc.preference.OscPreference
+import kittoku.osc.preference.accessor.getBooleanPrefValue
 
 class HomeActivity : AppCompatActivity(), OnUserEarnedRewardListener {
     lateinit var binding: ActivityHomeBinding
     private var rewardedInterstitialAd: RewardedInterstitialAd? = null
     private final var TAG = "MainActivity"
     var isVpnConnected = false
+    private var totalMinutes: Long = 3600000L
+    var updatedMinutes: Long = 0
+    var counter: CountDownTimer? = null
+    private lateinit var prefs: SharedPreferences
+    private lateinit var listener: SharedPreferences.OnSharedPreferenceChangeListener
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
-
         init()
         MobileAds.initialize(this) {
-            binding.txtRewardButton.setOnClickListener {
-                loadAd()
-            }
+            loadAd()
         }
 
     }
 
     private fun loadAd() {
-        RewardedInterstitialAd.load(this, "ca-app-pub-3940256099942544/5354046379",
+        RewardedInterstitialAd.load(this, getString(R.string.google_ad_id),
             AdRequest.Builder().build(), object : RewardedInterstitialAdLoadCallback() {
                 override fun onAdLoaded(ad: RewardedInterstitialAd) {
                     Log.d(TAG, "Ad was loaded.")
@@ -70,9 +83,11 @@ class HomeActivity : AppCompatActivity(), OnUserEarnedRewardListener {
                         }
 
                     }
-                    rewardedInterstitialAd?.show(/* Activity */ this@HomeActivity, /*
-    OnUserEarnedRewardListener */ this@HomeActivity
-                    )
+
+                    binding.txtRewardButton.setOnClickListener {
+                        rewardedInterstitialAd?.show(this@HomeActivity, this@HomeActivity)
+                        loadAd()
+                    }
                 }
 
                 override fun onAdFailedToLoad(adError: LoadAdError) {
@@ -82,20 +97,79 @@ class HomeActivity : AppCompatActivity(), OnUserEarnedRewardListener {
             })
     }
 
+    private fun timer(minutes: Long) {
+        counter = object : CountDownTimer(minutes, 60000) {
+            override fun onTick(millisUntilFinished: Long) {
+                binding.txtFreeMinutes.text = "${(millisUntilFinished / 60000)} Minutes Left"
+                updatedMinutes = millisUntilFinished / 60000
+
+            }
+
+            override fun onFinish() {
+                startVpnService(ACTION_VPN_DISCONNECT)
+                binding.txtFreeMinutes.text = "50"
+
+            }
+        }.start()
+    }
+
 
     private fun init() {
         binding.apply {
+            listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+                if (key == OscPreference.ROOT_STATE.name) {
+                    val newState = getBooleanPrefValue(OscPreference.ROOT_STATE, prefs)
+                    if (newState == true) {
+                        binding.btnConnect.setText(R.string.connected)
+                        binding.btnConnect.backgroundTintList = ContextCompat.getColorStateList(this@HomeActivity, R.color.green_connected);
+                        binding.btnConnect.strokeColor = ColorStateList.valueOf(getColor(R.color.grenn_stroke))
+                        timer(totalMinutes)
+
+                    } else {
+                        counter?.cancel()
+                        binding.txtFreeMinutes.text = "50"
+                        binding.btnConnect.setText(R.string.connect)
+                        binding.btnConnect.backgroundTintList = ContextCompat.getColorStateList(this@HomeActivity, R.color.brown_connect);
+                        binding.btnConnect.strokeColor = ColorStateList.valueOf(getColor(R.color.black))
+                    }
+                }
+            }
+
+            prefs.registerOnSharedPreferenceChangeListener(listener)
+
             txtServerName.setOnClickListener {
                 val intent = Intent(this@HomeActivity, ServerListActivity::class.java)
                 startActivity(intent)
             }
-        }
-        connectVpnClick()
 
+            connectVpnClick()
+
+
+            // Clicks
+
+            imgExit.setOnClickListener {
+                finishAffinity()
+            }
+
+            imgShare.setOnClickListener {
+                val sendIntent = Intent()
+                sendIntent.action = Intent.ACTION_SEND
+                sendIntent.putExtra(
+                    Intent.EXTRA_TEXT,
+                    "Hey check out my app at: https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID
+                )
+                sendIntent.type = "text/plain"
+                startActivity(sendIntent)
+            }
+
+            imgLike.setOnClickListener {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${BuildConfig.APPLICATION_ID}")))
+            }
+        }
     }
 
 
-    fun connectVpnClick() {
+    private fun connectVpnClick() {
         binding.btnConnect.setOnClickListener {
             if (isVpnConnected) {
                 startVpnService(ACTION_VPN_DISCONNECT)
@@ -116,18 +190,26 @@ class HomeActivity : AppCompatActivity(), OnUserEarnedRewardListener {
         }
     }
 
-    /*private fun startVpnService(action: String) {
-        startService(Intent(this, SstpVpnService::class.java).setAction(action))
-    }*/
-
     private fun startVpnService(action: String) {
         startService(Intent(this@HomeActivity, SstpVpnService::class.java).setAction(action))
     }
 
     override fun onUserEarnedReward(p0: RewardItem) {
-
         Log.e(TAG, "RewardEarned")
 
+
+        val newMinutes =(updatedMinutes * 60000) + 1800000
+        counter?.cancel()
+
+        Log.e("newMinutes",newMinutes.toString())
+
+        timer(newMinutes)
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        startVpnService(ACTION_VPN_DISCONNECT)
     }
 
 

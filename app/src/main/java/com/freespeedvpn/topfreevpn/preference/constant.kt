@@ -2,6 +2,9 @@ package kittoku.osc.preference
 
 
 internal enum class OscPreference {
+    IS_VPN_CONNECTED,
+
+
     ROOT_STATE,
     HOME_HOSTNAME,
     HOME_USERNAME,

@@ -9,5 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="app_background">#2e3a55</color>
     <color name="green_connected">#2f721d</color>
+    <color name="brown_connect">#928a5c</color>
     <color name="grenn_stroke">#4CAF50</color>
 </resources>

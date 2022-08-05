@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">TOP FREE VPN</string>
     <string name="connected">connected</string>
+    <string name="connect">connect</string>
     <string name="server_list">Server List</string>
+    <string name="google_ad_id">ca-app-pub-3940256099942544/5354046379</string>
 </resources>
