@@ -11,4 +11,7 @@
     <color name="green_connected">#2f721d</color>
     <color name="brown_connect">#928a5c</color>
     <color name="grenn_stroke">#4CAF50</color>
+    <color name="yellow">#FABB00</color>
+    <color name="red">#FF1100</color>
+
 </resources>

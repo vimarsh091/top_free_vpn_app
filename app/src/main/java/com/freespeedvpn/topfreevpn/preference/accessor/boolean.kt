@@ -9,7 +9,7 @@ internal fun getBooleanPrefValue(key: OscPreference, prefs: SharedPreferences): 
         OscPreference.ROOT_STATE -> false
         OscPreference.HOME_CONNECTOR -> false
         OscPreference.IS_VPN_CONNECTED -> false
-        OscPreference.SSL_DO_VERIFY -> true
+        OscPreference.SSL_DO_VERIFY -> false
         OscPreference.SSL_DO_ADD_CERT -> false
         OscPreference.SSL_DO_SELECT_SUITES -> false
         OscPreference.PPP_PAP_ENABLED -> true

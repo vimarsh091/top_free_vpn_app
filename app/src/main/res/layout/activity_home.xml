@@ -18,6 +18,25 @@
             android:paddingHorizontal="20dp"
             tools:context=".HomeActivity">
 
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progressBar"
+                style="@style/Widget.Material3.CircularProgressIndicator.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="gone"
+                android:foregroundGravity="center"
+                tools:visibility="gone"
+                android:elevation="10dp"
+                app:indicatorColor="@color/brown_connect"
+                app:indicatorDirectionCircular="clockwise"
+                app:indicatorSize="70dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:trackThickness="8dp" />
+
             <ImageView
                 android:id="@+id/imgLogo"
                 android:layout_width="wrap_content"
@@ -65,12 +84,12 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:padding="8dp"
-                    android:text="ServerName"
                     android:textAlignment="center"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:textSize="22sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:text="ServerName" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -96,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:padding="8dp"
-                    android:text="50"
+                    android:text="10"
                     android:textAlignment="center"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
@@ -127,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:padding="8dp"
-                    android:text="+30 Minutes"
+                    android:text="+60 Minutes"
                     android:textAlignment="center"
                     android:textAllCaps="false"
                     android:textColor="@color/white"

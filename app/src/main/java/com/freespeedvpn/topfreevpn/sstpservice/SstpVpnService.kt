@@ -90,17 +90,14 @@ internal class SstpVpnService : VpnService() {
             notificationManager.createNotificationChannel(channel)
         }
 
-        val intent = Intent(
-            applicationContext,
-            SstpVpnService::class.java
-        ).setAction(ACTION_VPN_DISCONNECT)
+        val intent = Intent(applicationContext,SstpVpnService::class.java).setAction(ACTION_VPN_DISCONNECT)
       //  val pendingIntent = PendingIntent.getService(applicationContext, 0, intent, 0)
 
          var pendingIntent: PendingIntent? = null
-         pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-             PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_MUTABLE)
+         pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+             PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
          } else {
-             PendingIntent.getActivity(this, 0, intent,0)
+             PendingIntent.getActivity(this, 0, intent,PendingIntent.FLAG_UPDATE_CURRENT)
          }
 
         val builder = NotificationCompat.Builder(applicationContext, CHANNEL_ID).also {

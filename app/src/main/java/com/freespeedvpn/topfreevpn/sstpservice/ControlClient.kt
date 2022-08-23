@@ -31,7 +31,7 @@ internal class ReconnectionSettings(prefs: SharedPreferences) {
     private var currentCount = initialCount
     private val interval = 10 /*getIntPrefValue(OscPreference.RECONNECTION_INTERVAL, prefs)*/
     internal val intervalMillis = (interval * 1000).toLong()
-    internal val isRetryable: Boolean = true
+    internal val isRetryable: Boolean = false
        // get() = currentCount > 0
 
     internal fun resetCount() {

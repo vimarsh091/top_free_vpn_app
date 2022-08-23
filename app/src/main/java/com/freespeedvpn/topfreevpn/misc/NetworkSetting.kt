@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import com.freespeedvpn.topfreevpn.MAX_MTU
 import com.freespeedvpn.topfreevpn.MIN_MRU
 import kittoku.osc.preference.OscPreference
+import kittoku.osc.preference.accessor.getIntPrefValue
 import kittoku.osc.preference.accessor.getStringPrefValue
 import kittoku.osc.unit.*
 import java.security.cert.Certificate
@@ -27,7 +28,7 @@ internal class NetworkSetting(prefs: SharedPreferences) {
     internal val HOME_HOSTNAME = getStringPrefValue(OscPreference.HOME_HOSTNAME, prefs)
     internal val HOME_USERNAME = getStringPrefValue(OscPreference.HOME_USERNAME, prefs)
     internal val HOME_PASSWORD = getStringPrefValue(OscPreference.HOME_PASSWORD, prefs)
-    internal val SSL_PORT = /*getIntPrefValue(OscPreference.SSL_PORT, prefs)*/ 443
+    internal val SSL_PORT = getIntPrefValue(OscPreference.SSL_PORT, prefs)
     internal val SSL_VERSION = /*getStringPrefValue(OscPreference.SSL_VERSION, prefs)*/ "DEFAULT"
     internal val SSL_DO_VERIFY =/* getBooleanPrefValue(OscPreference.SSL_DO_VERIFY, prefs)*/ false
     internal val SSL_DO_ADD_CERT = /*getBooleanPrefValue(OscPreference.SSL_DO_ADD_CERT, prefs)*/ false
