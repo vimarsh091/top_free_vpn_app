@@ -1,7 +1,7 @@
 package com.freespeedvpn.topfreevpn.model
 
 data class CountryServerList(
-    val countryServerList: List<CountryServer>
+    val countryServerList: ArrayList<CountryServer>
 )
 
 data class CountryServer(
@@ -10,5 +10,6 @@ data class CountryServer(
     val pass: String,
     val port: String,
     val user: String,
-    var latency: Long
+    var latency: Long,
+    var isHostAvailable: Boolean
 )

@@ -33,7 +33,15 @@ import kittoku.osc.preference.accessor.getBooleanPrefValue
 import kittoku.osc.preference.accessor.getStringPrefValue
 import kittoku.osc.preference.accessor.setIntPrefValue
 import kittoku.osc.preference.accessor.setStringPrefValue
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.io.BufferedReader
 import java.io.IOException
+import java.io.InputStreamReader
+import java.net.InetAddress
+import java.net.InetSocketAddress
+import java.net.Socket
+import java.util.*
 
 
 class HomeActivity : AppCompatActivity(), OnUserEarnedRewardListener {
@@ -127,7 +135,7 @@ class HomeActivity : AppCompatActivity(), OnUserEarnedRewardListener {
     }
 
 
-    fun pingg(domain: String): Long {
+/*    fun pingg(domain: String): Long {
         var timeofping = 0L
         val runtime = Runtime.getRuntime();
 
@@ -157,7 +165,7 @@ class HomeActivity : AppCompatActivity(), OnUserEarnedRewardListener {
 
         return timeofping;
 
-    }
+    }*/
 
 
     private fun init() {
@@ -226,19 +234,22 @@ class HomeActivity : AppCompatActivity(), OnUserEarnedRewardListener {
                 if (isChecked) {
                     //ping all servers
                     progressBar.visibility = View.VISIBLE
-                    serverList.countryServerList.forEachIndexed { index, countryServer ->
-                        serverList.countryServerList[index].latency = pingg(countryServer.host)
-                    }
+                    btnConnect.isEnabled = false
 
-                    //check max latency
-                    getMaxLatency(serverList)
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        progressBar.visibility = View.GONE
-                        binding.txtServerName.text = getStringPrefValue(OscPreference.HOME_SELECTED_COUNTRY, prefs)
-                    }, 1000)
+                    GlobalScope.launch {
+                        val fetchLatency = fetchLatency()
+
+                        if (fetchLatency) {
+                            runOnUiThread {
+                                progressBar.visibility = View.GONE
+                                btnConnect.isEnabled = true
+                            }
+                        }
+                    }
 
                 } else {
                     binding.txtServerName.text = getStringPrefValue(OscPreference.HOME_SELECTED_COUNTRY, prefs)
+                    btnConnect.isEnabled = true
                 }
             }
 
@@ -246,7 +257,37 @@ class HomeActivity : AppCompatActivity(), OnUserEarnedRewardListener {
         }
     }
 
-    fun getMaxLatency(serverList: CountryServerList) {
+    private fun fetchLatency(): Boolean {
+        serverList.countryServerList.forEachIndexed { index, countryServer ->
+            serverList.countryServerList[index].isHostAvailable = isHostAvailable(countryServer.host, countryServer.port.toInt(), 2000)
+
+            //  serverList.countryServerList[index].latency = /*pingg(countryServer.host)*/ ping(countryServer.host).toLong()
+        }
+
+        serverList.countryServerList.forEachIndexed { index, countryServer ->
+
+            if (countryServer.isHostAvailable) {
+                val rNum = (100..300).random()
+                serverList.countryServerList[index].latency = ping(countryServer.host).toLong()
+                //    list.countryServerList[index].latency = rNum.toLong()
+            }else{
+                serverList.countryServerList[index].latency = 9999.99.toLong()
+            }
+
+//            list.countryServerList[index].latency = ping(countryServer.host).toLong()
+        }
+
+        //check max latency
+        getMaxLatency(serverList)
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding.txtServerName.text = getStringPrefValue(OscPreference.HOME_SELECTED_COUNTRY, prefs)
+        }, 1000)
+
+        return true
+    }
+
+    private fun getMaxLatency(serverList: CountryServerList) {
         var maxLatency = 0L
         serverList.countryServerList.forEach {
             Log.e("serverName And latency", "${it.countryName} =-= ${it.latency}")
@@ -267,6 +308,31 @@ class HomeActivity : AppCompatActivity(), OnUserEarnedRewardListener {
         Log.e("maxLatencyNuber", maxLatency.toString())
 
     }
+
+    private fun ping(url: String): Float {
+        var str: String = ""
+        try {
+            val process = Runtime.getRuntime().exec(String.format(Locale.getDefault(), "/system/bin/ping -c 1 -W 1 %1\$s", url))
+            val reader = BufferedReader(InputStreamReader(process.inputStream))
+            var i: Int
+            val buffer = CharArray(4096)
+            val output = StringBuilder()
+            while (reader.read(buffer).also { i = it } > 0) output.append(buffer, 0, i)
+            reader.close()
+            str = output.toString()
+        } catch (e: IOException) {
+            Log.e("MyPINGLOG", "PingFailureType.COULD_NOT_PING")
+        }
+
+        //Try to get ping time, if ping was successful
+        return try {
+            str = str.substring(str.indexOf("time=") + 5, str.indexOf("ms") - 1)
+            str.toFloat()
+        } catch (e: java.lang.Exception) { /* Do nothing */
+            0f
+        }
+    }
+
 
     override fun onResume() {
         super.onResume()
@@ -317,7 +383,7 @@ class HomeActivity : AppCompatActivity(), OnUserEarnedRewardListener {
         startVpnService(ACTION_VPN_DISCONNECT)
     }
 
-    fun getServerList(context: Context): CountryServerList {
+    private fun getServerList(context: Context): CountryServerList {
 
         lateinit var jsonString: String
         try {
@@ -330,6 +396,24 @@ class HomeActivity : AppCompatActivity(), OnUserEarnedRewardListener {
 
         val listCountryType = object : TypeToken<CountryServerList>() {}.type
         return Gson().fromJson(jsonString, listCountryType)
+    }
+
+    private fun isHostAvailable(host: String?, port: Int, timeout: Int): Boolean {
+        try {
+            Socket().use { socket ->
+                val inetAddress: InetAddress = InetAddress.getByName(host)
+                val inetSocketAddress = InetSocketAddress(inetAddress, port)
+                socket.connect(inetSocketAddress, timeout)
+
+                Log.e("MyLOGSERVERAVAIlable-=-=-=", "+_+_+VAILABLE+_+_$host")
+                return true
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+
+            Log.e("MyLOGSERVERAVAIlable-=-=-=", "+_+_+NOT  VAILABLE+_+_$host")
+            return false
+        }
     }
 
 
