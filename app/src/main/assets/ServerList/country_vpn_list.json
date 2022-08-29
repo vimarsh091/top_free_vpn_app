@@ -9,7 +9,7 @@
         "latency":0
     },
     {
-        "countryName": "Korea NOT",
+        "countryName": "Korea",
         "host": "183.96.119.183",
         "port": "995",
         "user": "vpn",
@@ -25,7 +25,7 @@
         "latency": 0
     },
     {
-        "countryName": "Indonesia FAIL NOT",
+        "countryName": "Indonesia",
         "host": "140.0.205.22",
         "port": "1473",
         "user": "vpn",
@@ -33,7 +33,7 @@
         "latency": 0
     },
     {
-        "countryName": "United Kingdom NOT",
+        "countryName": "United Kingdom",
         "host": "82.44.60.59",
         "port": "1405",
         "user": "vpn",
@@ -68,14 +68,14 @@
         "pass": "vpn",
         "latency": 0
     },{
-        "countryName": "Korea FAIL",
+        "countryName": "Korea",
         "host": "119.194.203.217",
         "port": "995",
         "user": "vpn",
         "pass": "vpn",
         "latency": 0
     },{
-        "countryName": "Korea FAIL",
+        "countryName": "Korea",
         "host": "1.224.225.70",
         "port": "995",
         "user": "vpn",
@@ -89,7 +89,7 @@
         "pass": "vpn",
         "latency": 0
     },{
-        "countryName": "Korea FAIL",
+        "countryName": "Korea",
         "host": "183.106.217.207",
         "port": "995",
         "user": "vpn",
@@ -98,13 +98,6 @@
     },{
         "countryName": "USA",
         "host": "207.148.112.140",
-        "port": "443",
-        "user": "vpn",
-        "pass": "vpn",
-        "latency": 0
-    },{
-        "countryName": "USA FAIL NOT",
-        "host": "207.148.112.110",
         "port": "443",
         "user": "vpn",
         "pass": "vpn",
