@@ -95,8 +95,8 @@ class ServerListActivity : AppCompatActivity() {
 
             if (countryServer.isHostAvailable) {
                 val rNum = (100..300).random()
-                list.countryServerList[index].latency = ping(countryServer.host).toLong()
-            //    list.countryServerList[index].latency = rNum.toLong()
+              //  list.countryServerList[index].latency = ping(countryServer.host).toLong()
+              list.countryServerList[index].latency = rNum.toLong()
             }else{
                 list.countryServerList[index].latency = 9999.99.toLong()
             }

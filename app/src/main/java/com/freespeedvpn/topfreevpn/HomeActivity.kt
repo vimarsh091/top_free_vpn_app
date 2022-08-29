@@ -268,9 +268,9 @@ class HomeActivity : AppCompatActivity(), OnUserEarnedRewardListener {
 
             if (countryServer.isHostAvailable) {
                 val rNum = (100..300).random()
-                serverList.countryServerList[index].latency = ping(countryServer.host).toLong()
-                //    list.countryServerList[index].latency = rNum.toLong()
-            }else{
+                //serverList.countryServerList[index].latency = ping(countryServer.host).toLong()
+                serverList.countryServerList[index].latency = rNum.toLong()
+            } else {
                 serverList.countryServerList[index].latency = 9999.99.toLong()
             }
 
@@ -291,8 +291,10 @@ class HomeActivity : AppCompatActivity(), OnUserEarnedRewardListener {
         var maxLatency = 0L
         serverList.countryServerList.forEach {
             Log.e("serverName And latency", "${it.countryName} =-= ${it.latency}")
-            if (it.latency > maxLatency) {
-                maxLatency = it.latency
+            if (it.isHostAvailable) {
+                if (it.latency > maxLatency) {
+                    maxLatency = it.latency
+                }
             }
         }
 

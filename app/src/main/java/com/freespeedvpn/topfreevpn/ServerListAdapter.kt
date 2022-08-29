@@ -29,11 +29,8 @@ class ServerListAdapter(val context: Context, val list: CountryServerList) :
     override fun onBindViewHolder(holder: ServerListViewHolder, position: Int) {
         val bean = list.countryServerList[position]
         binding.txtItemServerName.text = bean.countryName
-        if (bean.latency == 0L) {
-            binding.txtServerLatency.text = "--"
-        } else {
-            binding.txtServerLatency.text = bean.latency.toString()
-        }
+            binding.txtServerLatency.text = "${bean.latency} ms"
+
         binding.constraintRoot.setOnClickListener {
             setStringPrefValue(bean.host, OscPreference.HOME_HOSTNAME, prefs)
             setStringPrefValue(bean.countryName, OscPreference.HOME_SELECTED_COUNTRY, prefs)
